@@ -1,0 +1,32 @@
+{
+    "domain": "wikimedia.org",
+    "dns": {
+        "spf": "\"v=spf1 include:_cidrs.wikimedia.org include:_spf.google.com ip4:74.121.51.111 ~all\"",
+        "dmarc": "\"v=DMARC1; p=reject; rua=mailto:dmarc-rua@wikimedia.org;\"",
+        "cnames": []
+    },
+    "headers": {
+        "HTTPS_Redirect": true,
+        "SRI_Check": false,
+        "Cookie_Security": "Nessun Cookie",
+        "Cache_History": null,
+        "HSTS": null,
+        "X-Frame-Options": null
+    },
+    "shodan": {
+        "ip": "185.15.58.224",
+        "organizzazione": "Wikimedia Foundation, Inc.",
+        "citta": "Marseille",
+        "isp": "Wikimedia Foundation Inc.",
+        "ports": [
+            80,
+            443
+        ],
+        "os": null
+    },
+    "score": 90,
+    "alerts": [
+        "BASSO: SRI non rilevato negli script esterni.",
+        "BASSO: X-Frame-Options mancante (Clickjacking)."
+    ]
+}

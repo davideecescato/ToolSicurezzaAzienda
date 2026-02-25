@@ -1,0 +1,33 @@
+{
+    "domain": "colfert.com",
+    "dns": {
+        "spf": "\"v=spf1 a:mail1.colfert.com include:spf.protection.outlook.com -all\"",
+        "dmarc": "\"v=DMARC1; p=none; rua=mailto:it@colfert.com; ruf=mailto:it@colfert.com; fo=1\"",
+        "cnames": []
+    },
+    "headers": {
+        "HTTPS_Redirect": true,
+        "SRI_Check": false,
+        "Cookie_Security": "Nessun Cookie",
+        "Cache_History": "max-age=3600, public",
+        "HSTS": null,
+        "X-Frame-Options": null
+    },
+    "shodan": {
+        "ip": "178.32.142.113",
+        "ports": [],
+        "organizzazione": "N/D (Non in Shodan)"
+    },
+    "tls": {
+        "is_valid": true,
+        "sni_supported": true,
+        "days_to_expire": 63,
+        "issuer": "Let's Encrypt",
+        "version": "TLSv1.3"
+    },
+    "score": 90,
+    "alerts": [
+        "BASSO: SRI non rilevato negli script esterni.",
+        "BASSO: X-Frame-Options mancante (Clickjacking)."
+    ]
+}

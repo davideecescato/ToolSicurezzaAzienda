@@ -11,6 +11,8 @@ from modules.modulesweb_headers_analysis import check_headers
 from modules.modulesscoring import calculate_score
 from modules.modulesreport_generator import generate_pdf
 from modules.moduleshistory_manager import save_analysis_history
+# --- AGGIUNTA 1: Import del modulo TLS/SNI ---
+from modules.modulestls_analysis import check_tls 
 
 load_dotenv()
 
@@ -38,16 +40,20 @@ def start_audit(target_domain):
     print_banner()
     print(f"{Theme.CYAN}{Theme.BOLD}{Theme.SCAN} TARGET IDENTIFICATO: {Theme.UNDERLINE}{domain}{Theme.RESET}\n")
 
-    with ThreadPoolExecutor(max_workers=3) as executor:
+    with ThreadPoolExecutor(max_workers=4) as executor: # Aumentato a 4 workers
         loading("Analisi Record DNS")
         f_dns = executor.submit(check_dns, domain)
         loading("Scansione Headers Web")
         f_web = executor.submit(check_headers, domain)
         loading("Query Database Shodan")
         f_sho = executor.submit(get_shodan_data, domain)
+        # --- AGGIUNTA 2: Esecuzione analisi TLS/SNI ---
+        loading("Analisi Certificato TLS/SNI")
+        f_tls = executor.submit(check_tls, domain)
 
-        dns_res, web_res, sho_res = f_dns.result(), f_web.result(), f_sho.result()
+        dns_res, web_res, sho_res, tls_res = f_dns.result(), f_web.result(), f_sho.result(), f_tls.result()
 
+    # Passiamo anche tls_res allo scoring se hai aggiornato il modulo scoring
     score, alerts = calculate_score(dns_res, web_res, sho_res)
 
     # DASHBOARD
@@ -64,11 +70,16 @@ def start_audit(target_domain):
     print(f"   └─ Porte Aperte:   {Theme.PORT} {str_ports}")
 
     # Sicurezza Web
-    print(f"\n{Theme.LOCK} {Theme.BOLD}Security Web:{Theme.RESET}")
+    print(f"\n{Theme.LOCK} {Theme.BOLD}Security Web & TLS:{Theme.RESET}") # Titolo aggiornato
     redirect = f"{Theme.GREEN}SÌ{Theme.RESET}" if web_res.get("HTTPS_Redirect") else f"{Theme.RED}NO{Theme.RESET}"
     sri = f"{Theme.GREEN}OK{Theme.RESET}" if web_res.get("SRI_Check") else f"{Theme.RED}MANCANTE{Theme.RESET}"
+    
+    # --- AGGIUNTA 3: Visualizzazione SNI ---
+    sni_status = f"{Theme.GREEN}SUPPORTO OK{Theme.RESET}" if tls_res.get("sni_supported") else f"{Theme.RED}NON RILEVATO{Theme.RESET}"
+    
     print(f"   ├─ HTTPS Redirect: {redirect}")
     print(f"   ├─ SRI Integrity:  {sri}")
+    print(f"   ├─ SNI Support:    {sni_status}") # Nuova riga SNI
     print(f"   └─ Cookie Sec:     {Theme.YELLOW}{web_res.get('Cookie_Security', 'N/D')}{Theme.RESET}")
 
     # Score
@@ -79,7 +90,8 @@ def start_audit(target_domain):
     
     print(f"{Theme.CYAN}━"*50 + f"{Theme.RESET}")
 
-    report_data = {"domain": domain, "dns": dns_res, "headers": web_res, "shodan": sho_res, "score": score, "alerts": alerts}
+    # Aggiornato report_data per includere TLS
+    report_data = {"domain": domain, "dns": dns_res, "headers": web_res, "shodan": sho_res, "tls": tls_res, "score": score, "alerts": alerts}
     generate_pdf(report_data)
     print(f"\n{Theme.GREEN}{Theme.SUCCESS} Analisi terminata. Report salvato in /output.{Theme.RESET}\n")
 

@@ -1,0 +1,39 @@
+{
+    "domain": "yarix.com",
+    "dns": {
+        "spf": "\"v=spf1 include:spf.protection.outlook.com ip4:93.33.254.146/32 ip4:212.19.97.128/32 ip4:212.77.91.156/32 ip4:212.19.102.128/26 ip4:185.175.127.0/24 ip4:212.77.84.6 include:spfaut.leonet.it include:amazonses.com -all\"",
+        "dmarc": "Mancante",
+        "cnames": []
+    },
+    "headers": {
+        "HTTPS_Redirect": true,
+        "SRI_Check": false,
+        "Cookie_Security": true,
+        "Cache_History": "no-store, must-revalidate, no-cache, max-age=0, private",
+        "HSTS": null,
+        "X-Frame-Options": null
+    },
+    "shodan": {
+        "ip": "20.50.2.86",
+        "organizzazione": "Microsoft Corporation",
+        "citta": "Amsterdam",
+        "isp": "Microsoft Corporation",
+        "ports": [
+            80,
+            443
+        ],
+        "os": null
+    },
+    "tls": {
+        "is_valid": true,
+        "sni_supported": true,
+        "days_to_expire": 48,
+        "issuer": "DigiCert, Inc.",
+        "version": "TLSv1.3"
+    },
+    "score": 90,
+    "alerts": [
+        "BASSO: SRI non rilevato negli script esterni.",
+        "BASSO: X-Frame-Options mancante (Clickjacking)."
+    ]
+}

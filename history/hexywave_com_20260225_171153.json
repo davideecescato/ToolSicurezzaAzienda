@@ -1,0 +1,33 @@
+{
+    "domain": "hexywave.com",
+    "dns": {
+        "spf": "\"v=spf1 include:spf.protection.outlook.com -all\"",
+        "dmarc": "Mancante",
+        "cnames": []
+    },
+    "headers": {
+        "HTTPS_Redirect": true,
+        "SRI_Check": false,
+        "Cookie_Security": false,
+        "Cache_History": "no-store, no-cache, must-revalidate",
+        "HSTS": null,
+        "X-Frame-Options": null
+    },
+    "shodan": {
+        "ip": "85.18.31.197",
+        "ports": [],
+        "organizzazione": "N/D (Non in Shodan)"
+    },
+    "tls": {
+        "is_valid": true,
+        "sni_supported": true,
+        "days_to_expire": 67,
+        "issuer": "Let's Encrypt",
+        "version": "TLSv1.3"
+    },
+    "score": 90,
+    "alerts": [
+        "BASSO: SRI non rilevato negli script esterni.",
+        "BASSO: X-Frame-Options mancante (Clickjacking)."
+    ]
+}

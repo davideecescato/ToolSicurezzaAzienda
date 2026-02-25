@@ -1,0 +1,33 @@
+{
+    "domain": "fornacigrigolin.com",
+    "dns": {
+        "spf": "\"v=spf1 +a +mx +ip4:46.254.38.56 ~all\"",
+        "dmarc": "Mancante",
+        "cnames": []
+    },
+    "headers": {
+        "HTTPS_Redirect": true,
+        "SRI_Check": false,
+        "Cookie_Security": "Nessun Cookie",
+        "Cache_History": null,
+        "HSTS": null,
+        "X-Frame-Options": null
+    },
+    "shodan": {
+        "ip": "46.254.38.56",
+        "ports": [],
+        "organizzazione": "N/D (Non in Shodan)"
+    },
+    "tls": {
+        "is_valid": true,
+        "sni_supported": true,
+        "days_to_expire": 54,
+        "issuer": "Let's Encrypt",
+        "version": "TLSv1.3"
+    },
+    "score": 90,
+    "alerts": [
+        "BASSO: SRI non rilevato negli script esterni.",
+        "BASSO: X-Frame-Options mancante (Clickjacking)."
+    ]
+}

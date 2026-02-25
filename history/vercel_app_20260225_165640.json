@@ -1,0 +1,32 @@
+{
+    "domain": "vercel.app",
+    "dns": {
+        "spf": "Mancante",
+        "dmarc": "Mancante",
+        "cnames": []
+    },
+    "headers": {
+        "HTTPS_Redirect": true,
+        "SRI_Check": false,
+        "Cookie_Security": true,
+        "Cache_History": "public, max-age=0, must-revalidate",
+        "HSTS": "max-age=31536000; includeSubDomains; preload",
+        "X-Frame-Options": "DENY"
+    },
+    "shodan": {
+        "ip": "216.198.79.195",
+        "organizzazione": "Vercel, Inc",
+        "citta": "Walnut",
+        "isp": "Amazon.com, Inc.",
+        "ports": [
+            80,
+            443
+        ],
+        "os": null
+    },
+    "score": 75,
+    "alerts": [
+        "CRITICO: SPF mancante (rischio spoofing email).",
+        "BASSO: SRI non rilevato negli script esterni."
+    ]
+}

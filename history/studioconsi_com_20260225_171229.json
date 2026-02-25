@@ -1,0 +1,49 @@
+{
+    "domain": "studioconsi.com",
+    "dns": {
+        "spf": "\"v=spf1 include:outlook.com include:_spf.mailersend.net ~all\"",
+        "dmarc": "\"v=DMARC1; p=reject; rua=mailto:ipm6mvw@ar.glockapps.com,mailto:privacy@studioconsi.com; ruf=mailto:ipm6mvw@fr.glockapps.com; fo=1;\"",
+        "cnames": []
+    },
+    "headers": {
+        "HTTPS_Redirect": true,
+        "SRI_Check": true,
+        "Cookie_Security": "Nessun Cookie",
+        "Cache_History": null,
+        "HSTS": "max-age=31536000; includeSubDomains; preload",
+        "X-Frame-Options": null
+    },
+    "shodan": {
+        "ip": "104.21.41.192",
+        "organizzazione": "Cloudflare, Inc.",
+        "citta": "San Francisco",
+        "isp": "Cloudflare, Inc.",
+        "ports": [
+            2096,
+            2082,
+            2083,
+            2052,
+            2053,
+            2086,
+            2087,
+            2095,
+            80,
+            8880,
+            8080,
+            8443,
+            443
+        ],
+        "os": null
+    },
+    "tls": {
+        "is_valid": true,
+        "sni_supported": true,
+        "days_to_expire": 72,
+        "issuer": "Google Trust Services",
+        "version": "TLSv1.3"
+    },
+    "score": 95,
+    "alerts": [
+        "BASSO: X-Frame-Options mancante (Clickjacking)."
+    ]
+}
