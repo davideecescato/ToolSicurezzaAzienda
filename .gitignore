@@ -1,0 +1,13 @@
+# Ambiente virtuale
+venv/
+.venv/
+
+# File sensibili (API Keys)
+.env
+
+# Report generati (per tenerli solo in locale)
+output/*.pdf
+
+# Cache di Python
+__pycache__/
+*.pyc

@@ -1,0 +1,21 @@
+{
+    "domain": "google.com",
+    "dns": {
+        "spf": "\"v=spf1 include:_spf.google.com ~all\"",
+        "dmarc": "\"v=DMARC1; p=reject; rua=mailto:mailauth-reports@google.com\"",
+        "cnames": []
+    },
+    "headers": {
+        "HSTS": null,
+        "CSP": null,
+        "X-Frame-Options": "SAMEORIGIN",
+        "X-Content-Type-Options": null
+    },
+    "shodan": {
+        "error": "Access denied (403 Forbidden)"
+    },
+    "score": 90,
+    "alerts": [
+        "BASSO: HSTS non abilitato (rischio attacchi Man-in-the-Middle)."
+    ]
+}
