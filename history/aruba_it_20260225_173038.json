@@ -1,0 +1,60 @@
+{
+    "domain": "aruba.it",
+    "dns": {
+        "spf": "\"v=spf1 include:registrarmail.net include:forpsi.com include:spf.mail.aruba.it include:spf.smtpcom.aruba.it include:spf.hosting.aruba.it include:spf.mailfree.aruba.it include:spf.biz.aruba.it -all\"",
+        "dmarc": "\"v=DMARC1; p=reject; sp=reject; rua=mailto:dmarcreport@aruba.it; ruf=mailto:dmarcerror@aruba.it; fo=1;\"",
+        "cnames": []
+    },
+    "headers": {
+        "HTTPS_Redirect": true,
+        "SRI_Check": false,
+        "Cookie_Security": true,
+        "Cache_History": "no-cache, must-revalidate",
+        "HSTS": "max-age=31536000; includeSubDomains",
+        "X-Frame-Options": "deny"
+    },
+    "shodan": {
+        "ip": "62.149.188.200",
+        "organizzazione": "Aruba S.p.A. - Special Services",
+        "citta": "Arezzo",
+        "isp": "Aruba S.p.A.",
+        "ports": [
+            80,
+            443
+        ],
+        "os": "Windows"
+    },
+    "tls": {
+        "is_valid": true,
+        "sni_supported": true,
+        "days_to_expire": 267,
+        "issuer": "Actalis S.p.A.",
+        "version": "TLSv1.2"
+    },
+    "subdomains": [
+        {
+            "subdomain": "www.aruba.it",
+            "ip": "104.20.34.129"
+        },
+        {
+            "subdomain": "mail.aruba.it",
+            "ip": "94.177.209.28"
+        },
+        {
+            "subdomain": "dev.aruba.it",
+            "ip": "10.150.128.4"
+        },
+        {
+            "subdomain": "api.aruba.it",
+            "ip": "62.149.188.76"
+        },
+        {
+            "subdomain": "shop.aruba.it",
+            "ip": "62.149.188.200"
+        }
+    ],
+    "score": 95,
+    "alerts": [
+        "BASSO: SRI non rilevato negli script esterni."
+    ]
+}

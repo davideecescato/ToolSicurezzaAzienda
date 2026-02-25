@@ -1,0 +1,44 @@
+{
+    "domain": "colfer.com",
+    "dns": {
+        "spf": "\"v=spf1 include:spf.exacthosting.com ip4:209.59.190.120 +a +mx +ip4:67.225.144.4 +ip4:67.225.145.2 +ip4:67.225.144.5 ~all\"",
+        "dmarc": "Mancante",
+        "cnames": []
+    },
+    "headers": {
+        "HTTPS_Redirect": false,
+        "SRI_Check": false,
+        "Cookie_Security": "Nessun Cookie",
+        "Cache_History": null,
+        "HSTS": null,
+        "X-Frame-Options": null
+    },
+    "shodan": {
+        "ip": "209.59.190.120",
+        "ports": [],
+        "organizzazione": "N/D (Non in Shodan)"
+    },
+    "tls": {
+        "is_valid": true,
+        "sni_supported": true,
+        "days_to_expire": 48,
+        "issuer": "Let's Encrypt",
+        "version": "TLSv1.3"
+    },
+    "subdomains": [
+        {
+            "subdomain": "www.colfer.com",
+            "ip": "209.59.190.120"
+        },
+        {
+            "subdomain": "mail.colfer.com",
+            "ip": "209.59.190.120"
+        }
+    ],
+    "score": 75,
+    "alerts": [
+        "ALTO: Il sito non reindirizza su HTTPS.",
+        "BASSO: SRI non rilevato negli script esterni.",
+        "BASSO: X-Frame-Options mancante (Clickjacking)."
+    ]
+}

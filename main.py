@@ -11,8 +11,9 @@ from modules.modulesweb_headers_analysis import check_headers
 from modules.modulesscoring import calculate_score
 from modules.modulesreport_generator import generate_pdf
 from modules.moduleshistory_manager import save_analysis_history
-# --- AGGIUNTA 1: Import del modulo TLS/SNI ---
 from modules.modulestls_analysis import check_tls 
+# --- AGGIUNTA 1: Import del modulo Sottodomini ---
+from modules.modulessubdomain_discovery import discover_subdomains 
 
 load_dotenv()
 
@@ -40,20 +41,21 @@ def start_audit(target_domain):
     print_banner()
     print(f"{Theme.CYAN}{Theme.BOLD}{Theme.SCAN} TARGET IDENTIFICATO: {Theme.UNDERLINE}{domain}{Theme.RESET}\n")
 
-    with ThreadPoolExecutor(max_workers=4) as executor: # Aumentato a 4 workers
+    with ThreadPoolExecutor(max_workers=5) as executor: # Aumentato a 5 workers per gestire i sottodomini
         loading("Analisi Record DNS")
         f_dns = executor.submit(check_dns, domain)
         loading("Scansione Headers Web")
         f_web = executor.submit(check_headers, domain)
         loading("Query Database Shodan")
         f_sho = executor.submit(get_shodan_data, domain)
-        # --- AGGIUNTA 2: Esecuzione analisi TLS/SNI ---
         loading("Analisi Certificato TLS/SNI")
         f_tls = executor.submit(check_tls, domain)
+        # --- AGGIUNTA 2: Esecuzione ricerca sottodomini ---
+        loading("Ricerca Sottodomini Comuni")
+        f_sub = executor.submit(discover_subdomains, domain)
 
-        dns_res, web_res, sho_res, tls_res = f_dns.result(), f_web.result(), f_sho.result(), f_tls.result()
+        dns_res, web_res, sho_res, tls_res, sub_res = f_dns.result(), f_web.result(), f_sho.result(), f_tls.result(), f_sub.result()
 
-    # Passiamo anche tls_res allo scoring se hai aggiornato il modulo scoring
     score, alerts = calculate_score(dns_res, web_res, sho_res)
 
     # DASHBOARD
@@ -66,20 +68,26 @@ def start_audit(target_domain):
     print(f"{Theme.GLOBE} {Theme.BOLD}Infrastruttura & Rete:{Theme.RESET}")
     print(f"   ├─ Indirizzo IP:   {Theme.GREEN}{ip}{Theme.RESET}")
     print(f"   ├─ Provider:       {sho_res.get('organizzazione', 'N/D')}")
+    
+    # --- AGGIUNTA 3: Visualizzazione Sottodomini ---
+    sub_count = len(sub_res) if sub_res else 0
+    print(f"   ├─ Sottodomini:    {Theme.CYAN}{sub_count} rilevati{Theme.RESET}")
+    if sub_res:
+        for s in sub_res[:3]: # Mostriamo i primi 3 per non intasare il terminale
+            print(f"   │  • {s['subdomain']} ({s['ip']})")
+    
     str_ports = f"{Theme.YELLOW}" + ", ".join(map(str, ports)) + f"{Theme.RESET}" if ports else f"{Theme.RED}Nessuna{Theme.RESET}"
     print(f"   └─ Porte Aperte:   {Theme.PORT} {str_ports}")
 
     # Sicurezza Web
-    print(f"\n{Theme.LOCK} {Theme.BOLD}Security Web & TLS:{Theme.RESET}") # Titolo aggiornato
+    print(f"\n{Theme.LOCK} {Theme.BOLD}Security Web & TLS:{Theme.RESET}")
     redirect = f"{Theme.GREEN}SÌ{Theme.RESET}" if web_res.get("HTTPS_Redirect") else f"{Theme.RED}NO{Theme.RESET}"
     sri = f"{Theme.GREEN}OK{Theme.RESET}" if web_res.get("SRI_Check") else f"{Theme.RED}MANCANTE{Theme.RESET}"
-    
-    # --- AGGIUNTA 3: Visualizzazione SNI ---
     sni_status = f"{Theme.GREEN}SUPPORTO OK{Theme.RESET}" if tls_res.get("sni_supported") else f"{Theme.RED}NON RILEVATO{Theme.RESET}"
     
     print(f"   ├─ HTTPS Redirect: {redirect}")
     print(f"   ├─ SRI Integrity:  {sri}")
-    print(f"   ├─ SNI Support:    {sni_status}") # Nuova riga SNI
+    print(f"   ├─ SNI Support:    {sni_status}")
     print(f"   └─ Cookie Sec:     {Theme.YELLOW}{web_res.get('Cookie_Security', 'N/D')}{Theme.RESET}")
 
     # Score
@@ -90,8 +98,18 @@ def start_audit(target_domain):
     
     print(f"{Theme.CYAN}━"*50 + f"{Theme.RESET}")
 
-    # Aggiornato report_data per includere TLS
-    report_data = {"domain": domain, "dns": dns_res, "headers": web_res, "shodan": sho_res, "tls": tls_res, "score": score, "alerts": alerts}
+    # Aggiornato report_data per includere TLS e Sottodomini
+    report_data = {
+        "domain": domain, 
+        "dns": dns_res, 
+        "headers": web_res, 
+        "shodan": sho_res, 
+        "tls": tls_res, 
+        "subdomains": sub_res, # Aggiunto qui
+        "score": score, 
+        "alerts": alerts
+    }
+    
     generate_pdf(report_data)
     print(f"\n{Theme.GREEN}{Theme.SUCCESS} Analisi terminata. Report salvato in /output.{Theme.RESET}\n")
 
