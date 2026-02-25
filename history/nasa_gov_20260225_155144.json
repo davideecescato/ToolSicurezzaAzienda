@@ -1,0 +1,25 @@
+{
+    "domain": "nasa.gov",
+    "dns": {
+        "spf": "\"v=spf1 include:_spf-4a.nasa.gov include:_spf-4b.nasa.gov include:_spf-4c.nasa.gov include:_spf-4d.nasa.gov include:_spf-4g.nasa.gov include:_spf-4m.nasa.gov include:_spf-4x.nasa.gov include:_spf-6a.nasa.gov include:spf.protection.outlook.com -all\"",
+        "dmarc": "\"v=DMARC1; p=reject; fo=1; rua=mailto:dmarcmail@mail.nasa.gov,mailto:reports@dmarc.cyber.dhs.gov\"",
+        "cnames": []
+    },
+    "headers": {
+        "HTTPS_Redirect": true,
+        "SRI_Check": false,
+        "Cookie_Security": "Nessun Cookie",
+        "Cache_History": "max-age=300, must-revalidate",
+        "HSTS": "max-age=31536000;includeSubdomains;preload",
+        "X-Frame-Options": "SAMEORIGIN"
+    },
+    "shodan": {
+        "ip": "192.0.66.108",
+        "ports": [],
+        "organizzazione": "N/D (Non in Shodan)"
+    },
+    "score": 95,
+    "alerts": [
+        "BASSO: SRI non rilevato negli script esterni."
+    ]
+}

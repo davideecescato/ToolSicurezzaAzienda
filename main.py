@@ -10,6 +10,7 @@ from modules.modulesshodan_analysis import get_shodan_data
 from modules.modulesweb_headers_analysis import check_headers
 from modules.modulesscoring import calculate_score
 from modules.modulesreport_generator import generate_pdf
+from modules.moduleshistory_manager import save_analysis_history
 
 load_dotenv()
 
@@ -81,6 +82,8 @@ def start_audit(target_domain):
     report_data = {"domain": domain, "dns": dns_res, "headers": web_res, "shodan": sho_res, "score": score, "alerts": alerts}
     generate_pdf(report_data)
     print(f"\n{Theme.GREEN}{Theme.SUCCESS} Analisi terminata. Report salvato in /output.{Theme.RESET}\n")
+
+    save_analysis_history(domain, report_data)
 
 if __name__ == "__main__":
     if os.name == 'nt': os.system('color')
